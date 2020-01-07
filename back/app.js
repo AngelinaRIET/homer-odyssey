@@ -12,7 +12,10 @@ const authRouter = require('./routes/auth/auth.js');
 app.use(morgan('dev'));
 app.use(bodyParser.urlencoded({ extended:  false }));
 app.use(bodyParser.json());
+app.use(express.json())
+ // app.use(express.urlencoded({extended:false}))
 app.use(express.static(__dirname  +  '/public'));
+
 
 // implement the API part
 app.get("/", (req,res) => {
@@ -29,6 +32,6 @@ app.use(function(req, res, next) {
 });
 
 // launch the node server
-let  server  =  app.listen( process.env.PORT  ||  3000, function(){
+let  server  =  app.listen( process.env.PORT  ||  5000, function(){
     console.log('Listening on port '  +  server.address().port);
 });
