@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import { Link, withRouter } from 'react-router-dom';
 import { Button, Snackbar, TextField } from '@material-ui/core';
 
 
@@ -47,7 +48,9 @@ class SignUp extends Component {
     .then(
         res => this.setState({"flash": res.flash}),
         err => this.setState({"flash": err.flash})
-    )
+    );
+    this.props.history.push('/');
+
   }
   handleSnackOpen = () => {
     this.setState((prevState) => ({
@@ -100,4 +103,4 @@ class SignUp extends Component {
   }
 }
 
-export default SignUp;
+export default withRouter(SignUp);
