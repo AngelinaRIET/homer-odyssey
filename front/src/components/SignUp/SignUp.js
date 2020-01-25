@@ -1,4 +1,6 @@
 import React, {Component} from 'react';
+import { Button, Snackbar, TextField } from '@material-ui/core';
+
 
 class SignUp extends Component {
   constructor(props) {
@@ -10,6 +12,7 @@ class SignUp extends Component {
       name: "",
       lastname: "",
       flash: "",
+      isSnackOpen: false
     }
   }
 
@@ -46,27 +49,53 @@ class SignUp extends Component {
         err => this.setState({"flash": err.flash})
     )
   }
+  handleSnackOpen = () => {
+    this.setState((prevState) => ({
+      ...prevState,
+      isSnackOpen: true
+    }))
+  }
+
+  handleSnackClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    this.setState((prevState) => ({
+      ...prevState,
+      isSnackOpen: false
+    }))
+  };
   
 
   render() {
+
+    const { flash, isSnackOpen } = this.state;
   
     return(
-      <> 
+      <div> 
         <h1>{JSON.stringify(this.state, 1, 1)}</h1>
         <form onSubmit={this.handleSubmit}>
-          <label> Email:</label>
-            <input type="email" name="email" onChange={this.updateEmailField} />
-          <label> Password: </label>
-            <input type="password" name="password" onChange={this.updatePasswordField} />
-          <label> Password confirmation: </label>
-            <input type="password" name="passwordBis" onChange={this.updatePasswordBisField} />
-          <label> Name: </label>
-            <input type="name" name="name" onChange={this.updateNameField} />
-          <label> Lastname: </label>          
-            <input type="lastname" name="lastname" onChange={this.updateLastnameField} />
-            <input type="submit" value="Submit"/>
+        <TextField label="Email" type="email" name="email" onChange={this.updateEmailField} />
+           <TextField label="Password" type="password" name="password" onChange={this.updatePasswordField} />
+           <TextField label="Re-enter password" type="password" name="passwordBis" onChange={this.updatePasswordBisField} />
+           <TextField label="Name" type="name" name="name" onChange={this.updateNameField} />
+           <TextField label="Lastname" type="lastname" name="lastname" onChange={this.updateLastnameField} />
+           <Button 
+             type="submit"
+             variant="contained" 
+             color="primary"
+             onClick={this.handleSnackOpen}
+             >Submit
+           </Button>
+           <Snackbar
+           anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+           open={isSnackOpen}
+           autoHideDuration={5000}
+           onClose={this.handleSnackClose}
+           message={flash}
+         />
         </form>
-      </>
+      </div>
     );
   }
 }
